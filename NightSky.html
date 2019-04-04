@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+    <title>Canvas</title>
+    <style type="text/css">
+        body{
+            background-color: black;
+            margin:0px;
+        }
+    </style>
+</head>
+<body onresize="refreshSizeCanvas()">
+    <canvas id="CanvasPrincipal"></canvas>
+</body>
+<script>
+    var canvas = document.getElementById('CanvasPrincipal');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    var c = canvas.getContext('2d');
+    c.fillStyle = "#FFF";
+    var velocidade = 100;
+    var atual;
+    
+    alert('Q - Aumentar Quantidade\r\nW - Diminuir Quantidade\r\nA - Círculos\r\nS - Quadrados\r\n ');
+    
+
+    function estrelaQuadrada() {
+        var X = Math.floor(Math.random() * window.innerWidth) + 1;
+        var Y = Math.floor(Math.random() * window.innerHeight) + 1;
+        var size = 0;
+        var t = 0;
+        var intervalo = window.setInterval(() =>{
+            
+            c.clearRect(X-1,Y-1,size+2,size+2);
+            c.fillRect(X,Y,size,size);
+            if(t > 5)
+                size--
+            else 
+                size++
+            if(t == 10){
+                window.clearInterval(intervalo);
+                c.clearRect(X-1,Y-1,size+2,size+2);
+            }
+            else
+                t++;
+        },100)
+    }
+    
+        function estrelaCirculo() {
+        var X = Math.floor(Math.random() * window.innerWidth) + 1;
+        var Y = Math.floor(Math.random() * window.innerHeight) + 1;
+        var size = 0;
+        var t = 0;
+        var intervalo = window.setInterval(() =>{
+            
+            c.clearRect(X-10,Y-10,size+12,size+12);
+            c.beginPath();
+            c.arc(X,Y,size,0,Math.PI * 2,false);
+            c.strokeStyle = 'white';
+            c.stroke();
+            if(t > 5)
+                size--
+            else 
+                size++
+            if(t == 10){
+                window.clearInterval(intervalo);
+                c.clearRect(X-10,Y-10,size+12,size+12);
+            }
+            else
+                t++;
+        },100)
+    }
+    
+    function refreshSizeCanvas(){
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    
+    window.addEventListener('keypress', mudarPadrao);
+    
+    function mudarPadrao(e){
+
+        if(e.code == 'KeyA'){
+            window.clearInterval(atual);
+            this.atual = window.setInterval(() =>{
+                estrelaCirculo()
+            },this.velocidade)
+        }
+
+        if(e.code == 'KeyS'){
+            window.clearInterval(atual);
+            this.atual = window.setInterval(() =>{
+                estrelaQuadrada()
+            },this.velocidade)
+        }
+        
+        if(e.code == 'KeyQ'){
+            if(this.velocidade > 10 )
+                this.velocidade -= 10
+            window.clearInterval(atual);
+        }
+        
+        if(e.code == 'KeyW'){
+            if(this.velocidade < 1000 )
+                this.velocidade += 10
+            window.clearInterval(atual);
+        }
+    }
+
+</script>
+</html>
