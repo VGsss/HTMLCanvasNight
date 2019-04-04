@@ -11,6 +11,10 @@
     </style>
 </head>
 <body onresize="refreshSizeCanvas()">
+    <button onclick="pressChar('q')">Q - More Explosions</button>
+    <button onclick="pressChar('w')">W - Less Explosions</button>
+    <button onclick="pressChar('a')">A - Circles</button>
+    <button onclick="pressChar('s')">S - Squares</button>
     <canvas id="CanvasPrincipal"></canvas>
 </body>
 <script>
@@ -22,8 +26,10 @@
     var velocidade = 100;
     var atual;
     
-    alert('Q - More explosions\r\nW - Less explosions\r\nA - Circles\r\nS - Squares\r\n ');
-    
+    function pressChar(char)
+    {
+        window.dispatchEvent(new KeyboardEvent('keypress',{'key':char}));
+    }
 
     function estrelaQuadrada() {
         var X = Math.floor(Math.random() * window.innerWidth) + 1;
@@ -81,27 +87,27 @@
     
     function mudarPadrao(e){
 
-        if(e.code == 'KeyA'){
+        if(e.key == 'a'){
             window.clearInterval(atual);
             this.atual = window.setInterval(() =>{
                 estrelaCirculo()
             },this.velocidade)
         }
 
-        if(e.code == 'KeyS'){
+        if(e.key == 's'){
             window.clearInterval(atual);
             this.atual = window.setInterval(() =>{
                 estrelaQuadrada()
             },this.velocidade)
         }
         
-        if(e.code == 'KeyQ'){
+        if(e.key == 'q'){
             if(this.velocidade > 10 )
                 this.velocidade -= 10
             window.clearInterval(atual);
         }
         
-        if(e.code == 'KeyW'){
+        if(e.key == 'w'){
             if(this.velocidade < 1000 )
                 this.velocidade += 10
             window.clearInterval(atual);
