@@ -11,13 +11,13 @@
     </style>
 </head>
 <body onresize="refreshSizeCanvas()">
-    <button onclick="pressChar('q')">Q - More Explosions</button>
-    <button onclick="pressChar('w')">W - Less Explosions</button>
-    <button onclick="pressChar('a')">A - Circles</button>
-    <button onclick="pressChar('s')">S - Squares</button>
+    <button onclick="aumentarVelocidade(true)">More Explosions</button>
+    <button onclick="aumentarVelocidade(false)">Less Explosions</button>
+    <button onclick="mudarPadrao('circulo')">Circles</button>
+    <button onclick="mudarPadrao('quadrado')">Squares</button>
     <canvas id="CanvasPrincipal"></canvas>
 </body>
-<script>
+<>
     var canvas = document.getElementById('CanvasPrincipal');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -25,13 +25,13 @@
     c.fillStyle = "#FFF";
     var velocidade = 100;
     var atual;
+	var tipo = 'circulo';
     
-    function pressChar(char)
+    function pressChar(keyCode)
     {
-        window.dispatchEvent(new KeyboardEvent('keypress',{'key':char}));
+        window.dispatchEvent(new KeyboardEvent('keyup',{'keyCode':keyCode}));
     }
-
-    function estrelaQuadrada() {
+    function estrelaQuadrado() {
         var X = Math.floor(Math.random() * window.innerWidth) + 1;
         var Y = Math.floor(Math.random() * window.innerHeight) + 1;
         var size = 0;
@@ -82,37 +82,50 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
-    
-    window.addEventListener('keypress', mudarPadrao);
-    
-    function mudarPadrao(e){
-
-        if(e.key == 'a'){
+	
+	function aumentarVelocidade(aumentar){
+		if(aumentar){
+			if(this.velocidade > 10 ) this.velocidade -= 10
+            window.clearInterval(atual);
+			if (tipo === 'circulo')
+			this.atual = window.setInterval(() =>{
+				estrelaCirculo();
+            },this.velocidade)
+			if (this.tipo === 'quadrado')
+			this.atual = window.setInterval(() =>{
+				estrelaQuadrado();
+            },this.velocidade)
+		}
+		else{
+            if(this.velocidade < 1000 ) this.velocidade += 10
+            window.clearInterval(atual);
+			if (tipo === 'circulo')
+			this.atual = window.setInterval(() =>{
+				estrelaCirculo();
+            },this.velocidade)
+			if (this.tipo === 'quadrado')
+			this.atual = window.setInterval(() =>{
+				estrelaQuadrado();
+            },this.velocidade)
+		}
+	}
+	
+    function mudarPadrao(padrao){
+        if(padrao == 'quadrado'){
+			tipo = 'quadrado'
+            window.clearInterval(atual);
+            this.atual = window.setInterval(() =>{
+                
+				estrelaQuadrado()
+            },this.velocidade)
+        }
+        if(padrao == 'circulo'){
+			tipo = 'circulo'
             window.clearInterval(atual);
             this.atual = window.setInterval(() =>{
                 estrelaCirculo()
             },this.velocidade)
         }
-
-        if(e.key == 's'){
-            window.clearInterval(atual);
-            this.atual = window.setInterval(() =>{
-                estrelaQuadrada()
-            },this.velocidade)
-        }
-        
-        if(e.key == 'q'){
-            if(this.velocidade > 10 )
-                this.velocidade -= 10
-            window.clearInterval(atual);
-        }
-        
-        if(e.key == 'w'){
-            if(this.velocidade < 1000 )
-                this.velocidade += 10
-            window.clearInterval(atual);
-        }
     }
-
-</script>
+</>
 </html>
