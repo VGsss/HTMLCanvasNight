@@ -17,7 +17,7 @@
     <button onclick="mudarPadrao('quadrado')">Squares</button>
     <canvas id="CanvasPrincipal"></canvas>
 </body>
-<>
+<script>
     var canvas = document.getElementById('CanvasPrincipal');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -27,10 +27,6 @@
     var atual;
 	var tipo = 'circulo';
     
-    function pressChar(keyCode)
-    {
-        window.dispatchEvent(new KeyboardEvent('keyup',{'keyCode':keyCode}));
-    }
     function estrelaQuadrado() {
         var X = Math.floor(Math.random() * window.innerWidth) + 1;
         var Y = Math.floor(Math.random() * window.innerHeight) + 1;
@@ -127,5 +123,5 @@
             },this.velocidade)
         }
     }
-</>
+</script>
 </html>
